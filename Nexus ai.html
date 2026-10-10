@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)file:///D:/CODiNG/Nexus%20ai.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NexusAI">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="NexusAI">
+<meta name="description" content="NexusAI — Advanced AI Assistant. Runs entirely offline in your browser.">
+<meta name="msapplication-TileColor" content="#09090b">
+<title>NexusAI</title>
+<link rel="manifest" id="manifestLink" href="blob:null/ef89f427-cdbd-454b-923e-76539e036c2b">
+<link rel="apple-touch-icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 192 192&#39;&gt;&lt;rect width=&#39;192&#39; height=&#39;192&#39; rx=&#39;40&#39; fill=&#39;%2309090b&#39;/&gt;&lt;defs&gt;&lt;linearGradient id=&#39;g&#39; x1=&#39;0&#39; y1=&#39;0&#39; x2=&#39;1&#39; y2=&#39;1&#39;&gt;&lt;stop offset=&#39;0&#39; stop-color=&#39;%23f59e0b&#39;/&gt;&lt;stop offset=&#39;1&#39; stop-color=&#39;%23ef4444&#39;/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;rect x=&#39;46&#39; y=&#39;46&#39; width=&#39;100&#39; height=&#39;100&#39; rx=&#39;24&#39; fill=&#39;url(%23g)&#39;/&gt;&lt;text x=&#39;96&#39; y=&#39;112&#39; text-anchor=&#39;middle&#39; fill=&#39;%23000&#39; font-family=&#39;sans-serif&#39; font-weight=&#39;900&#39; font-size=&#39;52&#39;&gt;N&lt;/text&gt;&lt;/svg&gt;">
+<script src="https://cdn.tailwindcss.com/"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #09090b;
+    --bg-secondary: #0f0f12;
+    --bg-tertiary: #18181b;
+    --bg-elevated: #1e1e22;
+    --border: #27272a;
+    --border-light: #3f3f46;
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-muted: #52525b;
+    --accent: #f59e0b;
+    --accent-hover: #d97706;
+    --accent-subtle: rgba(245,158,11,0.08);
+    --accent-glow: rgba(245,158,11,0.15);
+    --error: #ef4444;
+    --success: #22c55e;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);}
+  h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',sans-serif;}
+  ::-webkit-scrollbar{width:5px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--border-light);}
+
+  /* Splash Screen */
+  .splash {
+    position:fixed;inset:0;z-index:9999;background:var(--bg-primary);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity .5s,visibility .5s;
+  }
+  .splash.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .splash-logo{width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;font-size:36px;color:#000;font-weight:900;font-family:'Space Grotesk',sans-serif;animation:splashPulse 1.2s ease-in-out infinite;box-shadow:0 12px 48px var(--accent-glow);}
+  .splash-text{margin-top:20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;color:var(--text-primary);}
+  .splash-sub{margin-top:6px;font-size:13px;color:var(--text-muted);}
+  .splash-bar{width:120px;height:3px;background:var(--bg-tertiary);border-radius:2px;margin-top:28px;overflow:hidden;}
+  .splash-bar-fill{height:100%;width:0;background:var(--accent);border-radius:2px;animation:splashLoad 1.8s ease-out forwards;}
+  @keyframes splashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  @keyframes splashLoad{0%{width:0}60%{width:70%}100%{width:100%}}
+
+  /* Install Banner */
+  .install-banner {
+    position:fixed;bottom:calc(16px + var(--safe-bottom));left:50%;transform:translateX(-50%);
+    background:var(--bg-elevated);border:1px solid var(--border);border-radius:14px;
+    padding:14px 20px;display:none;align-items:center;gap:12px;z-index:80;
+    box-shadow:0 16px 48px rgba(0,0,0,0.5);max-width:380px;width:calc(100% - 32px);
+    animation:slideUp .3s ease-out;
+  }
+  .install-banner.show{display:flex;}
+  .install-banner .ib-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;color:#000;font-size:18px;flex-shrink:0;}
+  .install-banner .ib-text{flex:1;min-width:0;}
+  .install-banner .ib-title{font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;}
+  .install-banner .ib-desc{font-size:12px;color:var(--text-muted);margin-top:2px;}
+  .install-banner .ib-btn{background:var(--accent);color:#000;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Space Grotesk',sans-serif;transition:all .15s;}
+  .install-banner .ib-btn:hover{background:var(--accent-hover);}
+  .install-banner .ib-close{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:4px;}
+  .install-banner .ib-close:hover{color:var(--text-primary);}
+
+  /* Offline indicator */
+  .offline-bar{position:fixed;top:0;left:0;right:0;background:var(--error);color:#fff;text-align:center;padding:6px;font-size:12px;font-weight:600;z-index:90;display:none;animation:slideDown .3s ease-out;}
+  .offline-bar.show{display:block;}
+  @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+  @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  /* Sidebar */
+  .sidebar{width:280px;min-width:280px;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s;z-index:40;}
+  .sidebar.collapsed{transform:translateX(-100%);opacity:0;position:absolute;height:100%;}
+  .sidebar-header{padding:16px;border-bottom:1px solid var(--border);padding-top:calc(16px + var(--safe-top));}
+  .new-chat-btn{width:100%;padding:10px 16px;border-radius:10px;background:var(--accent);color:#000;font-weight:600;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:'Space Grotesk',sans-serif;}
+  .new-chat-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 20px var(--accent-glow);}
+  .new-chat-btn:active{transform:scale(.97);}
+  .search-box{margin:12px 16px 8px;position:relative;}
+  .search-box input{width:100%;padding:8px 12px 8px 34px;border-radius:8px;background:var(--bg-tertiary);border:1px solid var(--border);color:var(--text-primary);font-size:13px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
+  .search-box input:focus{border-color:var(--accent);}
+  .search-box i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:12px;}
+  .conv-list{flex:1;overflow-y:auto;padding:8px;}
+  .conv-item{padding:10px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;position:relative;margin-bottom:2px;}
+  .conv-item:hover{background:var(--bg-tertiary);}
+  .conv-item.active{background:var(--accent-subtle);border:1px solid rgba(245,158,11,0.15);}
+  .conv-item .conv-title{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-secondary);}
+  .conv-item.active .conv-title{color:var(--text-primary);}
+  .conv-item .conv-actions{display:none;gap:4px;}
+  .conv-item:hover .conv-actions{display:flex;}
+  .conv-item .conv-actions button{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:2px 4px;border-radius:4px;font-size:11px;transition:all .15s;}
+  .conv-item .conv-actions button:hover{color:var(--text-primary);background:var(--bg-elevated);}
+  .sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px;padding-bottom:calc(12px + var(--safe-bottom));}
+  .sidebar-footer button{width:100%;padding:9px 12px;border-radius:8px;background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:13px;text-align:left;display:flex;align-items:center;gap:10px;transition:all .15s;font-family:'DM Sans',sans-serif;}
+  .sidebar-footer button:hover{background:var(--bg-tertiary);color:var(--text-primary);}
+  .sidebar-footer button i{width:18px;text-align:center;}
+
+  /* Sidebar overlay on mobile */
+  .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:35;display:none;backdrop-filter:blur(2px);}
+  .sidebar-overlay.show{display:block;animation:fadeIn .2s;}
+
+  /* Main Area */
+  .main-area{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;}
+  .main-header{padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:rgba(9,9,11,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10;min-height:50px;padding-top:calc(10px + var(--safe-top));}
+  .toggle-sidebar{background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:18px;padding:6px;border-radius:6px;transition:all .15s;}
+  .toggle-sidebar:hover{color:var(--text-primary);background:var(--bg-tertiary);}
+
+  .model-select{position:relative;}
+  .model-select-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:6px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-weight:500;transition:all .2s;}
+  .model-select-btn:hover{border-color:var(--border-light);background:var(--bg-tertiary);}
+  .model-select-btn .dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:dotPulse 2s infinite;}
+  @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .model-dropdown{position:absolute;top:calc(100% + 6px);left:0;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:220px;box-shadow:0 16px 48px rgba(0,0,0,0.4);display:none;z-index:50;}
+  .model-dropdown.open{display:block;animation:dropIn .15s ease-out;}
+  .model-option{padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:space-between;transition:background .1s;}
+  .model-option:hover{background:var(--bg-tertiary);}
+  .model-option.selected{background:var(--accent-subtle);}
+  .model-option .model-name{font-weight:500;}
+  .model-option .model-desc{font-size:11px;color:var(--text-muted);}
+  .model-option .check{color:var(--accent);font-size:12px;}
+
+  .header-actions{margin-left:auto;display:flex;gap:2px;}
+  .header-actions button{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:6px 8px;border-radius:6px;font-size:14px;transition:all .15s;}
+  .header-actions button:hover{color:var(--text-primary);background:var(--bg-tertiary);}
+
+  /* Messages */
+  .messages-area{flex:1;overflow-y:auto;scroll-behavior:smooth;}
+  .messages-inner{max-width:768px;margin:0 auto;padding:16px 16px 8px;}
+
+  .welcome-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:40px 20px;}
+  .welcome-logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;font-size:28px;color:#000;margin-bottom:24px;animation:logoFloat 3s ease-in-out infinite;box-shadow:0 8px 32px var(--accent-glow);}
+  .welcome-screen h2{font-size:26px;font-weight:700;margin-bottom:6px;}
+  .welcome-screen p{color:var(--text-muted);font-size:14px;margin-bottom:32px;line-height:1.6;}
+  .suggestions{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:540px;width:100%;}
+  .suggestion-card{padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg-secondary);cursor:pointer;text-align:left;transition:all .2s;font-size:13px;color:var(--text-secondary);line-height:1.5;-webkit-user-select:none;user-select:none;}
+  .suggestion-card:hover{border-color:var(--accent);background:var(--accent-subtle);color:var(--text-primary);transform:translateY(-2px);}
+  .suggestion-card:active{transform:scale(.97);}
+  .suggestion-card .sugg-icon{color:var(--accent);margin-bottom:8px;font-size:16px;}
+
+  /* Message Bubbles */
+  .message{display:flex;gap:12px;padding:18px 0;animation:msgIn .3s ease-out;}
+  .message+.message{border-top:1px solid rgba(39,39,42,0.4);}
+  .msg-avatar{width:30px;height:30px;min-width:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:2px;}
+  .msg-avatar.user-av{background:var(--bg-elevated);color:var(--text-secondary);}
+  .msg-avatar.ai-av{background:linear-gradient(135deg,var(--accent),#ef4444);color:#000;font-weight:700;font-size:11px;font-family:'Space Grotesk',sans-serif;}
+  .msg-content{flex:1;min-width:0;}
+  .msg-header{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+  .msg-name{font-weight:600;font-size:13px;font-family:'Space Grotesk',sans-serif;}
+  .msg-time{font-size:11px;color:var(--text-muted);}
+  .msg-body{font-size:14.5px;line-height:1.75;color:var(--text-secondary);word-wrap:break-word;overflow-wrap:break-word;}
+  .msg-body p{margin-bottom:10px;}
+  .msg-body p:last-child{margin-bottom:0;}
+  .msg-body strong{color:var(--text-primary);font-weight:600;}
+  .msg-body em{color:var(--accent);font-style:italic;}
+  .msg-body ul,.msg-body ol{margin:8px 0;padding-left:22px;}
+  .msg-body li{margin-bottom:4px;}
+  .msg-body a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
+  .msg-body h1,.msg-body h2,.msg-body h3{color:var(--text-primary);margin:14px 0 6px;font-family:'Space Grotesk',sans-serif;}
+  .msg-body h2{font-size:17px;}
+  .msg-body h3{font-size:15px;}
+  .msg-body blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:12px 0;background:var(--accent-subtle);border-radius:0 8px 8px 0;color:var(--text-secondary);font-style:italic;}
+  .msg-body code:not(pre code){background:var(--bg-elevated);padding:1px 5px;border-radius:4px;font-size:13px;color:#e879f9;font-family:'Fira Code',monospace;}
+  .msg-body pre{background:#0d1117;border:1px solid var(--border);border-radius:10px;margin:10px 0;overflow:hidden;}
+  .msg-body pre code{display:block;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.6;font-family:'Fira Code',monospace;}
+  .code-header{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);}
+  .copy-code-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:12px;display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;transition:all .15s;font-family:'DM Sans',sans-serif;}
+  .copy-code-btn:hover{color:var(--text-primary);background:rgba(255,255,255,0.05);}
+  .msg-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;}
+  .msg-body th,.msg-body td{padding:8px 12px;border:1px solid var(--border);text-align:left;}
+  .msg-body th{background:var(--bg-tertiary);color:var(--text-primary);font-weight:600;}
+  .msg-body hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+  .msg-actions{display:flex;gap:4px;margin-top:8px;opacity:0;transition:opacity .2s;}
+  .message:hover .msg-actions{opacity:1;}
+  @media(hover:none){.msg-actions{opacity:1;}}
+  .msg-actions button{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:5px 8px;border-radius:5px;font-size:12px;display:flex;align-items:center;gap:4px;transition:all .15s;font-family:'DM Sans',sans-serif;}
+  .msg-actions button:hover{color:var(--text-primary);background:var(--bg-tertiary);}
+
+  .typing-indicator{display:flex;gap:4px;padding:6px 0;}
+  .typing-indicator span{width:7px;height:7px;border-radius:50%;background:var(--text-muted);animation:typeBounce .6s ease-in-out infinite;}
+  .typing-indicator span:nth-child(2){animation-delay:.15s;}
+  .typing-indicator span:nth-child(3){animation-delay:.3s;}
+  .stream-cursor{display:inline-block;width:2px;height:15px;background:var(--accent);margin-left:1px;vertical-align:text-bottom;animation:cursorBlink .6s step-end infinite;}
+
+  /* Input Area */
+  .input-area{padding:0 16px 12px;padding-bottom:calc(12px + var(--safe-bottom));}
+  .input-wrapper{max-width:768px;margin:0 auto;position:relative;}
+  .input-box{display:flex;align-items:flex-end;gap:8px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:16px;padding:10px 12px;transition:border-color .2s,box-shadow .2s;}
+  .input-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+  .input-box textarea{flex:1;background:none;border:none;color:var(--text-primary);font-size:15px;resize:none;outline:none;max-height:180px;line-height:1.5;padding:3px 0;font-family:'DM Sans',sans-serif;}
+  .input-box textarea::placeholder{color:var(--text-muted);}
+  .input-btns{display:flex;gap:3px;align-items:center;}
+  .input-btns button{width:34px;height:34px;border-radius:8px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;font-size:14px;}
+  .attach-btn{background:none;color:var(--text-muted);}
+  .attach-btn:hover{color:var(--text-primary);background:var(--bg-tertiary);}
+  .send-btn{background:var(--accent);color:#000;}
+  .send-btn:hover{background:var(--accent-hover);transform:scale(1.05);}
+  .send-btn:disabled{opacity:.25;cursor:not-allowed;transform:none;}
+  .send-btn.stop-btn{background:var(--error);color:#fff;}
+  .send-btn.stop-btn:hover{background:#dc2626;}
+  .input-footer{text-align:center;padding-top:6px;font-size:11px;color:var(--text-muted);}
+
+  /* Settings Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);padding:20px;}
+  .modal-overlay.open{display:flex;animation:fadeIn .2s;}
+  .modal{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;animation:modalIn .25s ease-out;}
+  .modal h3{font-size:20px;margin-bottom:20px;font-family:'Space Grotesk',sans-serif;display:flex;align-items:center;justify-content:space-between;}
+  .modal .close-modal{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:4px;border-radius:6px;transition:all .15s;}
+  .modal .close-modal:hover{color:var(--text-primary);background:var(--bg-tertiary);}
+  .setting-group{margin-bottom:18px;}
+  .setting-group label{display:block;font-size:13px;color:var(--text-secondary);margin-bottom:5px;font-weight:500;}
+  .setting-group .desc{font-size:11px;color:var(--text-muted);margin-bottom:7px;}
+  .setting-group input[type="range"]{width:100%;accent-color:var(--accent);height:4px;}
+  .setting-group .range-val{float:right;color:var(--accent);font-weight:600;font-size:13px;}
+  .setting-group textarea{width:100%;padding:10px 12px;border-radius:8px;background:var(--bg-tertiary);border:1px solid var(--border);color:var(--text-primary);font-size:13px;resize:vertical;outline:none;min-height:70px;font-family:'DM Sans',sans-serif;transition:border-color .2s;}
+  .setting-group textarea:focus{border-color:var(--accent);}
+  .setting-toggle{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+  .toggle-switch{width:40px;height:22px;border-radius:11px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+  .toggle-switch.on{background:var(--accent);}
+  .toggle-switch::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:white;top:3px;left:3px;transition:transform .2s;}
+  .toggle-switch.on::after{transform:translateX(18px);}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
+  .modal-actions button{padding:9px 20px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;font-family:'Space Grotesk',sans-serif;}
+  .btn-cancel{background:var(--bg-tertiary);color:var(--text-secondary);}
+  .btn-cancel:hover{background:var(--border);color:var(--text-primary);}
+  .btn-save{background:var(--accent);color:#000;}
+  .btn-save:hover{background:var(--accent-hover);}
+
+  /* Edit Input */
+  .edit-input{width:100%;padding:9px 12px;border-radius:8px;background:var(--bg-tertiary);border:1px solid var(--accent);color:var(--text-primary);font-size:14px;outline:none;font-family:'DM Sans',sans-serif;margin-bottom:8px;}
+  .edit-actions{display:flex;gap:6px;margin-bottom:8px;}
+  .edit-actions button{padding:5px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;font-family:'DM Sans',sans-serif;}
+  .edit-save{background:var(--accent);color:#000;}
+  .edit-cancel{background:var(--bg-tertiary);color:var(--text-secondary);}
+
+  /* Toast */
+  .toast-container{position:fixed;top:calc(16px + var(--safe-top));right:16px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+  .toast{padding:11px 16px;border-radius:10px;font-size:13px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-primary);box-shadow:0 8px 32px rgba(0,0,0,0.3);display:flex;align-items:center;gap:8px;animation:toastIn .3s ease-out;font-family:'DM Sans',sans-serif;pointer-events:auto;}
+  .toast.success i{color:var(--success);}
+  .toast.error i{color:var(--error);}
+  .toast.info i{color:var(--accent);}
+  .toast.leaving{animation:toastOut .3s ease-in forwards;}
+
+  /* About Modal */
+  .about-content{text-align:center;padding:10px 0;}
+  .about-logo{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;font-size:24px;color:#000;font-weight:900;font-family:'Space Grotesk',sans-serif;margin:0 auto 14px;}
+  .about-content h4{font-size:18px;margin-bottom:4px;}
+  .about-content .version{color:var(--text-muted);font-size:13px;margin-bottom:16px;}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  .about-stat{background:var(--bg-tertiary);border-radius:10px;padding:12px;text-align:center;}
+  .about-stat .val{font-size:20px;font-weight:700;color:var(--accent);font-family:'Space Grotesk',sans-serif;}
+  .about-stat .lbl{font-size:11px;color:var(--text-muted);margin-top:2px;}
+
+  /* Animations */
+  @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes typeBounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:1}}
+  @keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+  @media(max-width:768px){
+    .sidebar{position:fixed;height:100%;transform:translateX(-100%);width:280px;min-width:280px;}
+    .sidebar.mobile-open{transform:translateX(0);opacity:1;}
+    .suggestions{grid-template-columns:1fr;}
+    .welcome-screen h2{font-size:22px;}
+    .input-area{padding-left:12px;padding-right:12px;}
+    .messages-inner{padding:12px;}
+    .header-actions .desktop-only{display:none;}
+  }
+
+  /* Ambient glow */
+  .main-area::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:500px;height:350px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none;z-index:0;opacity:.35;}
+  .messages-area,.input-area,.main-header{position:relative;z-index:1;}
+</style>
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div class="splash hidden" id="splash">
+  <div class="splash-logo">N</div>
+  <div class="splash-text">NexusAI</div>
+  <div class="splash-sub">Advanced AI Assistant</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- Offline Bar -->
+<div class="offline-bar show" id="offlineBar"><i class="fas fa-wifi-slash" style="margin-right:6px;"></i> You're offline — NexusAI still works!</div>
+
+<!-- Install Banner -->
+<div class="install-banner" id="installBanner">
+  <div class="ib-icon"><i class="fas fa-download"></i></div>
+  <div class="ib-text">
+    <div class="ib-title">Install NexusAI</div>
+    <div class="ib-desc">Add to home screen for the full app experience</div>
+  </div>
+  <button class="ib-btn" id="installBtn">Install</button>
+  <button class="ib-close" id="installDismiss"><i class="fas fa-times"></i></button>
+</div>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div id="app" style="display:flex;height:100vh;">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#ef4444);display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;font-size:13px;font-family:&#39;Space Grotesk&#39;,sans-serif;">N</div>
+        <span style="font-family:&#39;Space Grotesk&#39;,sans-serif;font-weight:700;font-size:16px;">NexusAI</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--text-muted);background:var(--bg-tertiary);padding:2px 7px;border-radius:4px;">v2.0</span>
+      </div>
+      <button class="new-chat-btn" onclick="newConversation()">
+        <i class="fas fa-plus"></i> New Chat
+      </button>
+    </div>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search conversations..." id="searchInput" oninput="filterConversations()">
+    </div>
+    <div class="conv-list" id="convList">
+    <div class="conv-item active" onclick="switchConversation(&#39;c_1780134453302_3eydy7&#39;)">
+      <i class="fas fa-message" style="font-size:12px;color:var(--text-muted);flex-shrink:0;"></i>
+      <span class="conv-title">thanks</span>
+      <div class="conv-actions">
+        <button onclick="deleteConversation(&#39;c_1780134453302_3eydy7&#39;,event)" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+    <div class="sidebar-footer">
+      <button onclick="openSettings()"><i class="fas fa-sliders"></i> Settings</button>
+      <button onclick="openAbout()"><i class="fas fa-circle-info"></i> About</button>
+      <button onclick="exportChat()"><i class="fas fa-download"></i> Export Chat</button>
+      <button onclick="clearAllConversations()"><i class="fas fa-trash-alt"></i> Clear All</button>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="main-area">
+    <header class="main-header">
+      <button class="toggle-sidebar" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="model-select">
+        <button class="model-select-btn" onclick="toggleModelDropdown()" id="modelBtn">
+          <span class="dot"></span>
+          <span id="modelName">NexusAI 4o</span>
+          <i class="fas fa-chevron-down" style="font-size:10px;color:var(--text-muted);"></i>
+        </button>
+        <div class="model-dropdown" id="modelDropdown">
+          <div class="model-option selected" onclick="selectModel(&#39;NexusAI 4o&#39;,&#39;Most capable model&#39;,this)">
+            <div><div class="model-name">NexusAI 4o</div><div class="model-desc">Most capable model</div></div>
+            <i class="fas fa-check check" style="visibility: visible;"></i>
+          </div>
+          <div class="model-option" onclick="selectModel(&#39;NexusAI 4 Turbo&#39;,&#39;Fast and intelligent&#39;,this)">
+            <div><div class="model-name">NexusAI 4 Turbo</div><div class="model-desc">Fast and intelligent</div></div>
+            <i class="fas fa-check check" style="visibility:hidden"></i>
+          </div>
+          <div class="model-option" onclick="selectModel(&#39;NexusAI 4&#39;,&#39;Balanced performance&#39;,this)">
+            <div><div class="model-name">NexusAI 4</div><div class="model-desc">Balanced performance</div></div>
+            <i class="fas fa-check check" style="visibility:hidden"></i>
+          </div>
+          <div class="model-option" onclick="selectModel(&#39;NexusAI 3.5&#39;,&#39;Lightweight &amp; fast&#39;,this)">
+            <div><div class="model-name">NexusAI 3.5</div><div class="model-desc">Lightweight &amp; fast</div></div>
+            <i class="fas fa-check check" style="visibility:hidden"></i>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button onclick="newConversation()" title="New chat" class="desktop-only"><i class="fas fa-pen-to-square"></i></button>
+      </div>
+    </header>
+
+    <div class="messages-area" id="messagesArea">
+      <div class="messages-inner" id="messagesInner"><div class="message" id="msg-0"><div class="msg-avatar user-av"><i class="fas fa-user"></i></div><div class="msg-content"><div class="msg-header"><span class="msg-name">You</span><span class="msg-time">03:17 PM</span></div><div class="msg-body" id="msg-body-0"><p>thanks</p></div>
+    <div class="msg-actions">
+      <button onclick="editMessage(0)" title="Edit"><i class="fas fa-pen"></i> Edit</button>
+      <button onclick="copyMessage(0)" title="Copy"><i class="fas fa-copy"></i> Copy</button>
+    </div></div></div><div class="message" id="msg-1"><div class="msg-avatar ai-av">N</div><div class="msg-content"><div class="msg-header"><span class="msg-name">NexusAI</span><span class="msg-time">03:17 PM</span></div><div class="msg-body" id="msg-body-1"><p>You're welcome! Come back anytime — I'm here whenever you need help.</p>
+</div><div class="msg-actions"><button onclick="copyMessage(1)" title="Copy"><i class="fas fa-copy"></i> Copy</button><button onclick="regenerateMessage(1)" title="Regenerate"><i class="fas fa-rotate"></i> Regenerate</button></div></div></div></div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrapper">
+        <div class="input-box" id="inputBox">
+          <textarea id="userInput" rows="1" placeholder="Message NexusAI..." onkeydown="handleKeyDown(event)" oninput="autoResize(this);updateSendBtn()" style="height: auto;"></textarea>
+          <div class="input-btns">
+            <button class="attach-btn" title="Attach" onclick="handleAttach()"><i class="fas fa-paperclip"></i></button>
+            <button class="send-btn" id="sendBtn" onclick="handleSendClick()" title="Send" disabled=""><i class="fas fa-arrow-up"></i></button>
+          </div>
+        </div>
+        <div class="input-footer">NexusAI runs 100% offline. Your data never leaves this device.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3>Settings <button class="close-modal" onclick="closeSettings()"><i class="fas fa-xmark"></i></button></h3>
+    <div class="setting-group">
+      <label>System Prompt</label>
+      <div class="desc">Instructions that guide the AI's behavior</div>
+      <textarea id="systemPrompt">You are NexusAI, a helpful, harmless, and honest AI assistant. You provide clear, well-structured answers using markdown formatting when appropriate.</textarea>
+    </div>
+    <div class="setting-group">
+      <label>Temperature <span class="range-val" id="tempVal">0.7</span></label>
+      <div class="desc">Higher = more creative, Lower = more focused</div>
+      <input type="range" min="0" max="2" step="0.1" value="0.7" id="tempSlider" oninput="document.getElementById(&#39;tempVal&#39;).textContent=this.value">
+    </div>
+    <div class="setting-group">
+      <label>Max Tokens <span class="range-val" id="tokensVal">4096</span></label>
+      <div class="desc">Maximum response length</div>
+      <input type="range" min="256" max="8192" step="256" value="4096" id="tokensSlider" oninput="document.getElementById(&#39;tokensVal&#39;).textContent=this.value">
+    </div>
+    <div class="setting-group">
+      <div class="setting-toggle">
+        <div><label style="margin:0;">Stream Responses</label><div class="desc" style="margin:2px 0 0;">Show text as it generates</div></div>
+        <div class="toggle-switch on" id="streamToggle" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-toggle">
+        <div><label style="margin:0;">Code Highlighting</label><div class="desc" style="margin:2px 0 0;">Syntax color in code blocks</div></div>
+        <div class="toggle-switch on" id="hlToggle" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-toggle">
+        <div><label style="margin:0;">Haptic Feedback</label><div class="desc" style="margin:2px 0 0;">Vibrate on send (mobile)</div></div>
+        <div class="toggle-switch on" id="hapticToggle" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="resetSettings()">Reset</button>
+      <button class="btn-save" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal">
+    <div class="about-content">
+      <div class="about-logo">N</div>
+      <h4>NexusAI</h4>
+      <div class="version">Version 2.0.0 — Progressive Web App</div>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;max-width:320px;margin:0 auto;">A fully offline AI assistant that runs entirely in your browser. No servers, no data collection, no subscriptions.</p>
+      <div class="about-stats" id="aboutStats">
+        <div class="about-stat"><div class="val" id="statConvs">0</div><div class="lbl">Conversations</div></div>
+        <div class="about-stat"><div class="val" id="statMsgs">0</div><div class="lbl">Messages</div></div>
+        <div class="about-stat"><div class="val" id="statWords">0</div><div class="lbl">Words Generated</div></div>
+        <div class="about-stat"><div class="val">100%</div><div class="lbl">Offline</div></div>
+      </div>
+    </div>
+    <div class="modal-actions" style="justify-content:center;margin-top:20px;">
+      <button class="btn-cancel" onclick="closeAbout()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+// ============================================================
+// PWA SETUP — Manifest + Service Worker
+// ============================================================
+(function setupPWA() {
+  // Generate manifest as data URI
+  const manifest = {
+    name: "NexusAI — Advanced AI Assistant",
+    short_name: "NexusAI",
+    description: "Advanced AI assistant that runs 100% offline in your browser.",
+    start_url: location.href.split('?')[0],
+    display: "standalone",
+    background_color: "#09090b",
+    theme_color: "#09090b",
+    orientation: "any",
+    categories: ["productivity", "utilities"],
+    icons: [
+      { src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#09090b"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs><rect x="120" y="120" width="272" height="272" rx="64" fill="url(#g)"/><text x="256" y="300" text-anchor="middle" fill="#000" font-family="sans-serif" font-weight="900" font-size="140">N</text></svg>'), sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" },
+      { src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#09090b"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs><rect x="46" y="46" width="100" height="100" rx="24" fill="url(#g)"/><text x="96" y="112" text-anchor="middle" fill="#000" font-family="sans-serif" font-weight="900" font-size="52">N</text></svg>'), sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" }
+    ]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+  document.getElementById('manifestLink').href = URL.createObjectURL(manifestBlob);
+
+  // Service Worker for offline caching
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+      const CACHE_NAME = 'nexusai-v2';
+      const URLS_TO_CACHE = [
+        '${location.href.split('?')[0]}',
+        'https://cdn.tailwindcss.com',
+        'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap'
+      ];
+      self.addEventListener('install', e => {
+        e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE).catch(() => {})));
+        self.skipWaiting();
+      });
+      self.addEventListener('activate', e => {
+        e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
+        self.clients.claim();
+      });
+      self.addEventListener('fetch', e => {
+        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+          if (res.ok && e.request.method === 'GET') {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+          }
+          return res;
+        }).catch(() => new Response('Offline', { status: 503 }))));
+      });
+    `;
+    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl, { scope: '/' }).catch(() => {
+      // Blob URL SW may fail in some browsers — that's fine, app still works
+    });
+  }
+})();
+
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  conversations: [],
+  currentConvId: null,
+  isGenerating: false,
+  abortStream: false,
+  installPrompt: null,
+  settings: {
+    model: 'NexusAI 4o',
+    temperature: 0.7,
+    maxTokens: 4096,
+    systemPrompt: 'You are NexusAI, a helpful, harmless, and honest AI assistant. You provide clear, well-structured answers using markdown formatting when appropriate.',
+    stream: true,
+    codeHighlight: true,
+    haptic: true
+  }
+};
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+function init() {
+  const saved = localStorage.getItem('nexusai_state');
+  if (saved) {
+    try {
+      const p = JSON.parse(saved);
+      state.conversations = p.conversations || [];
+      state.settings = { ...state.settings, ...p.settings };
+      applySettingsToUI();
+      selectModelByName(state.settings.model);
+    } catch(e) {}
+  }
+
+  if (state.conversations.length > 0) {
+    switchConversation(state.conversations[0].id);
+  } else {
+    renderWelcome();
+  }
+  renderConvList();
+
+  // Dismiss splash after load
+  window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('splash').classList.add('hidden'); }, 2000);
+  });
+  // Fallback
+  setTimeout(() => { document.getElementById('splash').classList.add('hidden'); }, 3500);
+
+  // Online/offline detection
+  window.addEventListener('online', () => { document.getElementById('offlineBar').classList.remove('show'); });
+  window.addEventListener('offline', () => { document.getElementById('offlineBar').classList.add('show'); });
+  if (!navigator.onLine) document.getElementById('offlineBar').classList.add('show');
+
+  // Install prompt
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    state.installPrompt = e;
+    const dismissed = localStorage.getItem('nexusai_install_dismissed');
+    if (!dismissed) setTimeout(() => { document.getElementById('installBanner').classList.add('show'); }, 4000);
+  });
+
+  document.getElementById('installBtn').addEventListener('click', () => {
+    if (state.installPrompt) {
+      state.installPrompt.prompt();
+      state.installPrompt.userChoice.then(r => {
+        if (r.outcome === 'accepted') showToast('NexusAI installed!', 'success');
+        state.installPrompt = null;
+        document.getElementById('installBanner').classList.remove('show');
+      });
+    }
+  });
+  document.getElementById('installDismiss').addEventListener('click', () => {
+    document.getElementById('installBanner').classList.remove('show');
+    localStorage.setItem('nexusai_install_dismissed', '1');
+  });
+
+  // Handle back button on mobile
+  window.addEventListener('popstate', () => {
+    if (document.getElementById('sidebar').classList.contains('mobile-open')) {
+      closeSidebar();
+    }
+  });
+}
+
+function saveState() {
+  localStorage.setItem('nexusai_state', JSON.stringify({
+    conversations: state.conversations,
+    settings: state.settings
+  }));
+}
+
+function applySettingsToUI() {
+  document.getElementById('systemPrompt').value = state.settings.systemPrompt;
+  document.getElementById('tempSlider').value = state.settings.temperature;
+  document.getElementById('tempVal').textContent = state.settings.temperature;
+  document.getElementById('tokensSlider').value = state.settings.maxTokens;
+  document.getElementById('tokensVal').textContent = state.settings.maxTokens;
+  if (!state.settings.stream) document.getElementById('streamToggle').classList.remove('on');
+  if (!state.settings.codeHighlight) document.getElementById('hlToggle').classList.remove('on');
+  if (!state.settings.haptic) document.getElementById('hapticToggle').classList.remove('on');
+}
+
+// ============================================================
+// CONVERSATION MANAGEMENT
+// ============================================================
+function generateId() { return 'c_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6); }
+
+function newConversation() {
+  // If currently generating, stop first
+  if (state.isGenerating) stopGeneration();
+  const conv = { id: generateId(), title: 'New Chat', messages: [], createdAt: Date.now(), pinned: false };
+  state.conversations.unshift(conv);
+  state.currentConvId = conv.id;
+  saveState();
+  renderConvList();
+  renderWelcome();
+  document.getElementById('userInput').focus();
+  closeSidebar();
+}
+
+function switchConversation(id) {
+  if (state.isGenerating) stopGeneration();
+  state.currentConvId = id;
+  const conv = getCurrentConv();
+  if (!conv) return;
+  renderConvList();
+  conv.messages.length === 0 ? renderWelcome() : renderMessages();
+  closeSidebar();
+}
+
+function deleteConversation(id, e) {
+  e.stopPropagation();
+  state.conversations = state.conversations.filter(c => c.id !== id);
+  if (state.currentConvId === id) {
+    state.currentConvId = state.conversations.length > 0 ? state.conversations[0].id : null;
+    state.currentConvId ? switchConversation(state.currentConvId) : renderWelcome();
+  }
+  saveState();
+  renderConvList();
+  showToast('Conversation deleted', 'success');
+}
+
+function clearAllConversations() {
+  if (state.conversations.length === 0) return;
+  if (state.isGenerating) stopGeneration();
+  state.conversations = [];
+  state.currentConvId = null;
+  saveState();
+  renderConvList();
+  renderWelcome();
+  showToast('All conversations cleared', 'success');
+}
+
+function getCurrentConv() { return state.conversations.find(c => c.id === state.currentConvId); }
+
+function generateTitle(text) {
+  const cleaned = text.replace(/[#*`_~>\[\]()!]/g, '').trim();
+  return cleaned.length <= 40 ? cleaned : cleaned.substring(0, 40).trim() + '...';
+}
+
+function filterConversations() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.conv-item').forEach(el => {
+    el.style.display = el.querySelector('.conv-title').textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ============================================================
+// RENDERING
+// ============================================================
+function renderConvList() {
+  const list = document.getElementById('convList');
+  if (state.conversations.length === 0) {
+    list.innerHTML = '<div style="padding:24px 16px;text-align:center;color:var(--text-muted);font-size:13px;">No conversations yet<br><span style="font-size:11px;">Start a new chat to begin</span></div>';
+    return;
+  }
+  list.innerHTML = state.conversations.map(c => `
+    <div class="conv-item ${c.id === state.currentConvId ? 'active' : ''}" onclick="switchConversation('${c.id}')">
+      <i class="fas fa-message" style="font-size:12px;color:var(--text-muted);flex-shrink:0;"></i>
+      <span class="conv-title">${escapeHtml(c.title)}</span>
+      <div class="conv-actions">
+        <button onclick="deleteConversation('${c.id}',event)" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWelcome() {
+  document.getElementById('messagesInner').innerHTML = `
+    <div class="welcome-screen">
+      <div class="welcome-logo"><i class="fas fa-bolt"></i></div>
+      <h2>How can I help you today?</h2>
+      <p>Write code, explain concepts, draft emails, brainstorm ideas, or just chat. Everything runs offline on your device.</p>
+      <div class="suggestions">
+        <div class="suggestion-card" onclick="useSuggestion('Explain quantum computing in simple terms that anyone can understand')">
+          <div class="sugg-icon"><i class="fas fa-atom"></i></div>
+          Explain quantum computing simply
+        </div>
+        <div class="suggestion-card" onclick="useSuggestion('Write a Python function that implements binary search with detailed comments')">
+          <div class="sugg-icon"><i class="fas fa-code"></i></div>
+          Python binary search function
+        </div>
+        <div class="suggestion-card" onclick="useSuggestion('Help me write a professional email to request a meeting with a potential client')">
+          <div class="sugg-icon"><i class="fas fa-envelope"></i></div>
+          Draft a meeting request email
+        </div>
+        <div class="suggestion-card" onclick="useSuggestion('What are the best practices for designing a REST API? Give me a comprehensive guide')">
+          <div class="sugg-icon"><i class="fas fa-server"></i></div>
+          REST API best practices guide
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderMessages() {
+  const conv = getCurrentConv();
+  if (!conv) return;
+  document.getElementById('messagesInner').innerHTML = conv.messages.map((m, i) => createMessageHTML(m, i)).join('');
+  processCodeBlocks();
+  scrollToBottom();
+}
+
+function createMessageHTML(msg, index) {
+  const isUser = msg.role === 'user';
+  const time = new Date(msg.timestamp).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  const avatarClass = isUser ? 'user-av' : 'ai-av';
+  const avatarContent = isUser ? '<i class="fas fa-user"></i>' : 'N';
+  const name = isUser ? 'You' : 'NexusAI';
+  const bodyHTML = isUser ? `<p>${escapeHtml(msg.content).replace(/\n/g, '<br>')}</p>` : renderMarkdown(msg.content);
+  const actions = isUser ? `
+    <div class="msg-actions">
+      <button onclick="editMessage(${index})" title="Edit"><i class="fas fa-pen"></i> Edit</button>
+      <button onclick="copyMessage(${index})" title="Copy"><i class="fas fa-copy"></i> Copy</button>
+    </div>` : `
+    <div class="msg-actions">
+      <button onclick="copyMessage(${index})" title="Copy"><i class="fas fa-copy"></i> Copy</button>
+      <button onclick="regenerateMessage(${index})" title="Regenerate"><i class="fas fa-rotate"></i> Regenerate</button>
+    </div>`;
+  return `<div class="message" id="msg-${index}"><div class="msg-avatar ${avatarClass}">${avatarContent}</div><div class="msg-content"><div class="msg-header"><span class="msg-name">${name}</span><span class="msg-time">${time}</span></div><div class="msg-body" id="msg-body-${index}">${bodyHTML}</div>${actions}</div></div>`;
+}
+
+function renderMarkdown(text) {
+  if (!text) return '';
+  try {
+    marked.setOptions({ breaks: true, gfm: true, highlight: function(code, lang) {
+      if (state.settings.codeHighlight && lang && hljs.getLanguage(lang)) { try { return hljs.highlight(code, { language: lang }).value; } catch(e) {} }
+      return code;
+    }});
+    return marked.parse(text);
+  } catch(e) { return `<p>${escapeHtml(text).replace(/\n/g, '<br>')}</p>`; }
+}
+
+function processCodeBlocks() {
+  document.querySelectorAll('.msg-body pre').forEach(pre => {
+    if (pre.querySelector('.code-header')) return;
+    const code = pre.querySelector('code');
+    if (!code) return;
+    let lang = 'code';
+    code.classList.forEach(c => { if (c.startsWith('language-')) lang = c.replace('language-', ''); });
+    const header = document.createElement('div');
+    header.className = 'code-header';
+    header.innerHTML = `<span>${lang}</span><button class="copy-code-btn" onclick="copyCodeBlock(this)"><i class="fas fa-copy"></i> Copy</button>`;
+    pre.insertBefore(header, pre.firstChild);
+  });
+}
+
+// ============================================================
+// MESSAGE ACTIONS
+// ============================================================
+function copyMessage(i) {
+  const conv = getCurrentConv();
+  if (!conv || !conv.messages[i]) return;
+  navigator.clipboard.writeText(conv.messages[i].content).then(() => showToast('Copied to clipboard', 'success')).catch(() => showToast('Copy failed', 'error'));
+}
+
+function copyCodeBlock(btn) {
+  const code = btn.closest('pre').querySelector('code');
+  if (!code) return;
+  navigator.clipboard.writeText(code.textContent).then(() => {
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+  });
+}
+
+function editMessage(i) {
+  const conv = getCurrentConv();
+  if (!conv || !conv.messages[i] || state.isGenerating) return;
+  const msg = conv.messages[i];
+  const bodyEl = document.getElementById(`msg-body-${i}`);
+  bodyEl.innerHTML = `<input class="edit-input" type="text" value="${escapeHtml(msg.content)}" id="editInput-${i}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();saveEdit(${i})}if(event.key==='Escape')renderMessages()"><div class="edit-actions"><button class="edit-save" onclick="saveEdit(${i})">Save & Resend</button><button class="edit-cancel" onclick="renderMessages()">Cancel</button></div>`;
+  const inp = document.getElementById(`editInput-${i}`);
+  inp.focus();
+  inp.setSelectionRange(inp.value.length, inp.value.length);
+}
+
+function saveEdit(i) {
+  const conv = getCurrentConv();
+  if (!conv) return;
+  const inp = document.getElementById(`editInput-${i}`);
+  const newContent = inp.value.trim();
+  if (!newContent) return;
+  conv.messages = conv.messages.slice(0, i);
+  conv.messages.push({ role: 'user', content: newContent, timestamp: Date.now() });
+  saveState();
+  generateResponse(newContent);
+}
+
+function regenerateMessage(i) {
+  const conv = getCurrentConv();
+  if (!conv || state.isGenerating) return;
+  let userMsg = null, userIndex = -1;
+  for (let j = i - 1; j >= 0; j--) { if (conv.messages[j].role === 'user') { userMsg = conv.messages[j].content; userIndex = j; break; } }
+  if (userMsg === null) return;
+  conv.messages = conv.messages.slice(0, userIndex + 1);
+  saveState();
+  renderMessages();
+  generateResponse(userMsg);
+}
+
+// ============================================================
+// SENDING & GENERATION
+// ============================================================
+function useSuggestion(text) {
+  document.getElementById('userInput').value = text;
+  updateSendBtn();
+  sendMessage();
+}
+
+function handleSendClick() {
+  state.isGenerating ? stopGeneration() : sendMessage();
+}
+
+function updateSendBtn() {
+  if (!state.isGenerating) {
+    document.getElementById('sendBtn').disabled = document.getElementById('userInput').value.trim() === '';
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text || state.isGenerating) return;
+  if (!state.currentConvId) newConversation();
+  const conv = getCurrentConv();
+  if (!conv) return;
+  conv.messages.push({ role: 'user', content: text, timestamp: Date.now() });
+  if (conv.messages.length === 1) { conv.title = generateTitle(text); renderConvList(); }
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  saveState();
+  haptic('light');
+  renderMessages();
+  generateResponse(text);
+}
+
+async function generateResponse(userText) {
+  state.isGenerating = true;
+  state.abortStream = false;
+  updateSendButtonUI();
+  const conv = getCurrentConv();
+  if (!conv) { state.isGenerating = false; updateSendButtonUI(); return; }
+
+  // Typing indicator
+  const inner = document.getElementById('messagesInner');
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'message';
+  typingDiv.id = 'typing-msg';
+  typingDiv.innerHTML = `<div class="msg-avatar ai-av">N</div><div class="msg-content"><div class="msg-header"><span class="msg-name">NexusAI</span></div><div class="msg-body"><div class="typing-indicator"><span></span><span></span><span></span></div></div></div>`;
+  inner.appendChild(typingDiv);
+  scrollToBottom();
+
+  await sleep(500 + Math.random() * 1000);
+  if (state.abortStream) { removeTyping(); state.isGenerating = false; updateSendButtonUI(); return; }
+
+  const responseText = getAIResponse(userText, conv.messages);
+  removeTyping();
+
+  const msgIndex = conv.messages.length;
+  conv.messages.push({ role: 'assistant', content: '', timestamp: Date.now() });
+
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'message';
+  msgDiv.id = `msg-${msgIndex}`;
+  const timeStr = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  msgDiv.innerHTML = `<div class="msg-avatar ai-av">N</div><div class="msg-content"><div class="msg-header"><span class="msg-name">NexusAI</span><span class="msg-time">${timeStr}</span></div><div class="msg-body" id="msg-body-${msgIndex}"><span class="stream-cursor"></span></div><div class="msg-actions"><button onclick="copyMessage(${msgIndex})" title="Copy"><i class="fas fa-copy"></i> Copy</button><button onclick="regenerateMessage(${msgIndex})" title="Regenerate"><i class="fas fa-rotate"></i> Regenerate</button></div></div>`;
+  inner.appendChild(msgDiv);
+
+  const bodyEl = document.getElementById(`msg-body-${msgIndex}`);
+  const useStream = state.settings.stream;
+
+  if (useStream) {
+    let current = '';
+    let inCodeBlock = false;
+    for (let i = 0; i < responseText.length; i++) {
+      if (state.abortStream) break;
+      current += responseText[i];
+      if (responseText[i] === '`' && current.split('```').length % 2 === 0) inCodeBlock = !inCodeBlock;
+      bodyEl.innerHTML = renderMarkdown(current) + '<span class="stream-cursor"></span>';
+      let delay = inCodeBlock ? (3 + Math.random() * 5) : (10 + Math.random() * 16);
+      if (!inCodeBlock) {
+        if ('.!?'.includes(responseText[i])) delay = 50 + Math.random() * 70;
+        else if (responseText[i] === ',') delay = 25 + Math.random() * 35;
+        else if (responseText[i] === '\n') delay = 35 + Math.random() * 25;
+      }
+      await sleep(delay);
+      if (i % 4 === 0) scrollToBottom();
+    }
+    conv.messages[msgIndex].content = current;
+    bodyEl.innerHTML = renderMarkdown(current);
+  } else {
+    conv.messages[msgIndex].content = responseText;
+    bodyEl.innerHTML = renderMarkdown(responseText);
+  }
+
+  processCodeBlocks();
+  saveState();
+  scrollToBottom();
+  haptic('medium');
+  state.isGenerating = false;
+  updateSendButtonUI();
+}
+
+function stopGeneration() {
+  state.abortStream = true;
+}
+
+function updateSendButtonUI() {
+  const btn = document.getElementById('sendBtn');
+  if (state.isGenerating) {
+    btn.disabled = false;
+    btn.className = 'send-btn stop-btn';
+    btn.innerHTML = '<i class="fas fa-stop"></i>';
+  } else {
+    btn.className = 'send-btn';
+    btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    btn.disabled = document.getElementById('userInput').value.trim() === '';
+  }
+}
+
+function removeTyping() { const el = document.getElementById('typing-msg'); if (el) el.remove(); }
+
+// ============================================================
+// HAPTIC FEEDBACK
+// ============================================================
+function haptic(style) {
+  if (!state.settings.haptic || !navigator.vibrate) return;
+  const patterns = { light: [10], medium: [15, 30, 15], heavy: [20, 40, 20, 40, 20] };
+  navigator.vibrate(patterns[style] || patterns.light);
+}
+
+// ============================================================
+// RESPONSE ENGINE
+// ============================================================
+function getAIResponse(userText, history) {
+  const lower = userText.toLowerCase().trim();
+
+  if (/^(hi|hello|hey|howdy|greetings|good morning|good afternoon|good evening|what's up|sup)\b/i.test(lower)) {
+    return pickRandom([
+      "Hello! I'm NexusAI, ready to assist you. Whether you need help with coding, writing, analysis, or just want to explore an idea — I'm here. What's on your mind?",
+      "Hey there! Great to see you. I can help with a wide range of tasks — from writing code and explaining complex concepts to brainstorming creative ideas. What would you like to work on?",
+      "Hi! Welcome to NexusAI. I'm designed to help you think deeper, code better, and create faster. What can I help you with today?"
+    ]);
+  }
+  if (/how are you|how('s| is) it going|how do you do/i.test(lower)) {
+    return "I'm running at full capacity and ready to help! As an AI, I don't experience emotions the way you do, but I'm optimized and eager to assist. What would you like to dive into?";
+  }
+  if (/who are you|what are you|tell me about yourself|introduce yourself/i.test(lower)) {
+    return "I'm **NexusAI**, an advanced AI assistant designed to help you with a wide range of tasks:\n\n- **Coding & Development** — Write, debug, and explain code in dozens of languages\n- **Writing & Editing** — Draft emails, essays, articles, and creative content\n- **Analysis & Research** — Break down complex topics, compare options, synthesize information\n- **Brainstorming** — Generate ideas, explore possibilities, think through problems\n- **Learning** — Explain concepts at any level, from beginner to expert\n\nI process everything locally in your browser — no data leaves your device. How can I help you today?";
+  }
+
+  // Python
+  if (/python/i.test(lower) && (/code|function|write|create|implement|build|make|program|script|example|sort|search|class|def |import/i.test(lower))) {
+    return pickRandom([
+      "Here's a well-structured Python example:\n\n```python\ndef binary_search(arr, target):\n    \"\"\"\n    Perform binary search on a sorted array.\n    \n    Args:\n        arr (list): A sorted list of comparable elements\n        target: The element to search for\n    \n    Returns:\n        int: Index of target if found, -1 otherwise\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n\n# Example usage\nnumbers = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]\nresult = binary_search(numbers, 11)\nprint(f\"Found at index: {result}\")  # Found at index: 5\nprint(binary_search(numbers, 4))   # -1\nprint(binary_search([], 1))        # -1\n```\n\n**Key points:**\n\n1. **Time complexity**: O(log n) — far faster than linear search\n2. **Space complexity**: O(1) — constant extra space\n3. **Overflow-safe**: Uses `left + (right - left) // 2`\n4. **Well-documented**: Docstring, examples, edge cases\n\nWant me to extend this with recursion, type hints, or a variation like finding first/last occurrence?",
+      "Here's a Python solution for you:\n\n```python\nfrom dataclasses import dataclass, field\nfrom typing import Optional\nfrom datetime import datetime\n\n\n@dataclass\nclass Task:\n    name: str\n    priority: int = 5\n    completed: bool = False\n    created: datetime = field(default_factory=datetime.now)\n    \n    def complete(self) -> 'Task':\n        self.completed = True\n        return self\n    \n    @property\n    def is_high_priority(self) -> bool:\n        return self.priority <= 2\n\n\nclass TaskManager:\n    def __init__(self):\n        self._tasks: list[Task] = []\n    \n    def add(self, name: str, priority: int = 5) -> Task:\n        task = Task(name=name, priority=max(1, min(10, priority)))\n        self._tasks.append(task)\n        self._tasks.sort(key=lambda t: (t.completed, t.priority))\n        return task\n    \n    def get_next(self) -> Optional[Task]:\n        return next((t for t in self._tasks if not t.completed), None)\n    \n    def complete_next(self) -> Optional[Task]:\n        task = self.get_next()\n        if task:\n            task.complete()\n            self._tasks.sort(key=lambda t: (t.completed, t.priority))\n        return task\n    \n    @property\n    def stats(self) -> dict:\n        total = len(self._tasks)\n        done = sum(1 for t in self._tasks if t.completed)\n        return {\"total\": total, \"completed\": done, \"pending\": total - done}\n\n\n# Usage\nmgr = TaskManager()\nmgr.add(\"Fix critical bug\", priority=1)\nmgr.add(\"Write tests\", priority=2)\nmgr.add(\"Update README\", priority=5)\nmgr.add(\"Refactor module\", priority=3)\n\nprint(mgr.stats)  # {'total': 4, 'completed': 0, 'pending': 4}\nmgr.complete_next()\nprint(f\"Completed: {mgr.get_next().name if mgr.get_next() else 'None'}\")\n```\n\nUses `dataclass` for clean models, properties, and type hints. Want me to add persistence, due dates, or convert to use `heapq`?"
+    ]);
+  }
+
+  // JavaScript
+  if (/(javascript|js\b|node|react|vue|angular|typescript|tsx|jsx)/i.test(lower) && (/code|function|write|create|implement|build|make|component|hook/i.test(lower))) {
+    return "Here's a JavaScript implementation:\n\n```javascript\n/**\n * Debounce — delays function execution until after\n * a specified wait time since the last invocation.\n */\nfunction debounce(fn, wait = 300, options = {}) {\n  let timeoutId = null;\n  let lastArgs = null;\n  const { leading = false, trailing = true } = options;\n  let isLeading = true;\n\n  function debounced(...args) {\n    lastArgs = args;\n    if (leading && isLeading) {\n      fn.apply(this, args);\n      isLeading = false;\n    }\n    clearTimeout(timeoutId);\n    timeoutId = setTimeout(() => {\n      if (trailing && lastArgs) fn.apply(this, lastArgs);\n      timeoutId = null;\n      lastArgs = null;\n      isLeading = true;\n    }, wait);\n  }\n\n  debounced.cancel = () => {\n    clearTimeout(timeoutId);\n    timeoutId = null;\n    lastArgs = null;\n    isLeading = true;\n  };\n\n  debounced.flush = () => {\n    if (timeoutId && lastArgs) {\n      debounced.cancel();\n      fn.apply(this, lastArgs);\n    }\n  };\n\n  return debounced;\n}\n\n\n// Practical: search input\nconst input = document.querySelector('#search');\nconst search = debounce(async (query) => {\n  console.log('Searching:', query);\n  // await fetchResults(query);\n}, 400);\n\ninput.addEventListener('input', e => search(e.target.value));\n```\n\n**What makes this robust:**\n\n- **Leading & trailing** — Fire at start, end, or both\n- **Cancel & flush** — Clean up or execute immediately\n- **Context preservation** — Uses `apply` for proper `this` binding\n- **Memory safe** — Clears timeouts, nullifies references\n\nWant a React `useDebounce` hook, TypeScript types, or more use cases?";
+  }
+
+  // HTML/CSS
+  if (/(html|css|stylesheet|layout|flexbox|grid|responsive|tailwind)/i.test(lower) && (/code|write|create|build|make|design|example/i.test(lower))) {
+    return "Here's a modern HTML/CSS component:\n\n```html\n<div class=\"card-container\">\n  <div class=\"glass-card\">\n    <div class=\"card-image\">\n      <img src=\"https://picsum.photos/seed/nexus/400/240\" alt=\"Cover\">\n      <div class=\"card-badge\">New</div>\n    </div>\n    <div class=\"card-body\">\n      <h3>Modern Card Design</h3>\n      <p>A glassmorphism card with hover effects and smooth transitions.</p>\n      <div class=\"card-tags\">\n        <span class=\"tag\">CSS</span>\n        <span class=\"tag\">Glass</span>\n        <span class=\"tag\">Animation</span>\n      </div>\n      <div class=\"card-footer\">\n        <div class=\"author\"><div class=\"avatar\">N</div><span>NexusAI</span></div>\n        <button class=\"card-btn\">Read More</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n.card-container {\n  display: flex; justify-content: center;\n  padding: 40px;\n  background: linear-gradient(135deg, #0f172a, #1e1b4b);\n  min-height: 100vh;\n}\n.glass-card {\n  width: 360px; border-radius: 20px;\n  background: rgba(255,255,255,0.05);\n  backdrop-filter: blur(20px);\n  border: 1px solid rgba(255,255,255,0.1);\n  overflow: hidden;\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n.glass-card:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 20px 60px rgba(0,0,0,0.3);\n}\n.card-image { position: relative; overflow: hidden; }\n.card-image img { width: 100%; display: block; transition: transform 0.5s; }\n.glass-card:hover .card-image img { transform: scale(1.05); }\n.card-badge {\n  position: absolute; top: 12px; right: 12px;\n  background: #f59e0b; color: #000;\n  padding: 4px 12px; border-radius: 20px;\n  font-size: 12px; font-weight: 700;\n}\n.card-body { padding: 20px; }\n.card-body h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }\n.card-body p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }\n.card-tags { display: flex; gap: 6px; margin-bottom: 16px; }\n.tag { background: rgba(245,158,11,0.15); color: #f59e0b; padding: 4px 10px; border-radius: 6px; font-size: 12px; }\n.card-footer { display: flex; justify-content: space-between; align-items: center; }\n.author { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.7); font-size: 13px; }\n.avatar { width: 28px; height: 28px; border-radius: 50%; background: #f59e0b; color: #000; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }\n.card-btn { background: #f59e0b; color: #000; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }\n.card-btn:hover { background: #d97706; }\n</style>\n```\n\nFeatures glassmorphism, hover animations, and responsive layout. Want a card grid, dark mode toggle, or a full landing page section?";
+  }
+
+  // Math
+  if (/calculate|compute|what is \d|solve|math|\d\s*[\+\-\*\/\^]\s*\d|equation/i.test(lower)) {
+    const mathMatch = lower.match(/(?:calculate|compute|solve|what is|equals?)\s*([\d\+\-\*\/\.\(\)\s\^%]+)/i);
+    if (mathMatch) {
+      try {
+        const expr = mathMatch[1].replace(/\^/g, '**').trim();
+        const result = Function('"use strict"; return (' + expr + ')')();
+        if (typeof result === 'number' && isFinite(result)) {
+          return `**Result:** \`${mathMatch[1].trim()} = ${result}\`\n\n- **Expression:** ${mathMatch[1].trim()}\n- **Value:** ${result}\n- **Type:** ${Number.isInteger(result) ? 'Integer' : 'Floating point'}\n\nNeed a more complex equation solved, or an explanation of the concept?`;
+        }
+      } catch(e) {}
+    }
+    return "I'd be happy to help with math! Try:\n\n- **Arithmetic** — `Calculate 245 * 38 + 1024`\n- **Exponents** — `What is 2^10`\n- **Explanations** — \"Explain the chain rule in calculus\"\n- **Step-by-step** — \"Solve x² - 5x + 6 = 0 step by step\"\n\nWhat specific problem do you need help with?";
+  }
+
+  // Explanations
+  if (/^(what is|what are|how does|how do|explain|describe|tell me about|define)\b/i.test(lower)) {
+    if (/quantum/i.test(lower)) {
+      return "## Quantum Computing Explained Simply\n\nImagine a regular computer reads a book **one page at a time**. A quantum computer reads **all pages simultaneously**.\n\n### Core Difference\n\n| Classical Bit | Qubit |\n|---|---|\n| Either 0 **or** 1 | Can be 0 **and** 1 at once |\n| Like a light switch | Like a spinning coin |\n| Sequential processing | Parallel processing |\n\n### Key Concepts\n\n**1. Superposition**\nA qubit exists in multiple states at once — like a coin spinning in the air, both heads and tails until it lands.\n\n**2. Entanglement**\nTwo qubits can be linked so measuring one instantly reveals the other, regardless of distance. Einstein called this \"spooky action at a distance.\"\n\n**3. Interference**\nQuantum algorithms amplify correct answers and cancel wrong ones — like noise-canceling headphones for computation.\n\n### Real-World Applications\n\n- **Cryptography** — Could break current encryption (but also create unbreakable encryption)\n- **Drug discovery** — Simulate molecular interactions impossible for classical computers\n- **Optimization** — Find best solutions among millions of possibilities\n- **AI/ML** — Potentially train models exponentially faster\n\n### The Challenge\n\nQuantum computers need temperatures near **absolute zero** (-273°C), complete electromagnetic isolation, and sophisticated error correction. We're in the **NISQ era** — experimental but not yet practical for most tasks.\n\nWant me to go deeper into any concept?";
+    }
+    if (/rest api|restful/i.test(lower)) {
+      return "## REST API Best Practices\n\n### 1. URL Design\n\n```\nGood:  GET /users/123/orders\nBad:   GET /getUserOrders?userId=123\n```\n\n- Use **nouns**, not verbs\n- Use **plural** nouns\n- Nest for relationships (max 2-3 levels)\n\n### 2. HTTP Methods\n\n| Method | Purpose | Idempotent |\n|--------|---------|------------|\n| GET | Read | Yes |\n| POST | Create | No |\n| PUT | Replace | Yes |\n| PATCH | Partial update | No |\n| DELETE | Remove | Yes |\n\n### 3. Status Codes\n\n```\n200 OK              201 Created\n400 Bad Request     401 Unauthorized\n403 Forbidden       404 Not Found\n409 Conflict        422 Unprocessable\n500 Internal Error  503 Unavailable\n```\n\n### 4. Pagination & Filtering\n\n```\nGET /products?category=electronics&sort=-price&page=2&limit=20\n```\n\nResponse includes metadata:\n\n```json\n{\"data\": [...], \"meta\": {\"page\": 2, \"total\": 156, \"totalPages\": 8}}\n```\n\n### 5. Error Format\n\n```json\n{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Invalid parameters\",\n    \"details\": [{\"field\": \"email\", \"message\": \"Invalid format\"}]\n  }\n}\n```\n\n### 6. Security\n\n- **HTTPS everywhere**\n- **Rate limiting**\n- **Input validation** — never trust client data\n- **Authentication** — JWT or OAuth 2.0\n- **Strict CORS**\n- **Sanitize error responses**\n\nWant a complete implementation example or deeper dive into any area?";
+    }
+    const topic = lower.replace(/^(what is|what are|how does|how do|explain|describe|tell me about|define)\s*/i, '').replace(/[?.!]+$/, '').trim();
+    return `## ${capitalizeFirst(topic)}\n\nGreat question. Let me break this down:\n\n**${capitalizeFirst(topic)}** is a concept with multiple dimensions worth exploring.\n\n### Core Definition\nAt its fundamental level, ${topic} refers to the principles, systems, or practices that govern a particular domain.\n\n### Key Aspects\n\n1. **Foundation** — The underlying theory or mechanism\n2. **Application** — How it's used in real-world scenarios\n3. **Evolution** — How it has developed and where it's heading\n4. **Connections** — How it relates to other fields\n\n### Why It Matters\nUnderstanding ${topic} provides frameworks for thinking, building, and solving problems structurally.\n\n---\n\n*For a more targeted explanation, tell me:*\n- *What context are you approaching this from?*\n- *What level of detail would help most?*\n- *Any specific aspects to focus on?*`;
+  }
+
+  // Email
+  if (/email|mail|letter/i.test(lower) && (/write|draft|create|compose|help/i.test(lower))) {
+    return "Here's a professional email:\n\n---\n\n**Subject:** Meeting Request — Exploring Potential Collaboration\n\nDear [Recipient's Name],\n\nI hope this message finds you well. My name is [Your Name], and I'm the [Your Title] at [Your Company].\n\nI've been following [Company]'s work in [specific area], and I'm particularly impressed by [specific achievement]. I believe there could be valuable synergies between our organizations.\n\nI'd love to schedule a **30-minute introductory call** to:\n\n- Share a brief overview of what we do\n- Learn about your current priorities\n- Explore whether a collaboration would be mutually beneficial\n\nWould any of these times work?\n\n- **Tuesday** — 10:00 AM or 2:00 PM EST\n- **Wednesday** — 11:00 AM or 3:00 PM EST\n- **Thursday** — 9:00 AM or 1:00 PM EST\n\nI'm happy to adjust to your schedule. Thank you for considering — I look forward to the possibility of working together.\n\nBest regards,\n[Your Name]\n[Title] | [Company]\n[Phone] | [Email]\n\n---\n\n### Tips:\n1. **Under 200 words** — respect their time\n2. **Show research** — the specific reference proves it's not mass-sent\n3. **Clear ask** — 30 minutes, specific purpose\n4. **Reduce friction** — offer time slots or a calendar link\n5. **Professional but warm**\n\nWant me to adjust the tone, shorten it, or adapt for a different scenario?";
+  }
+
+  // Creative writing
+  if (/write|create|compose|draft/i.test(lower) && (/story|poem|essay|article|blog|narrative|fiction|tale/i.test(lower))) {
+    return "## The Last Signal\n\n*A short story*\n\n---\n\nThe radio had been silent for three years.\n\nDr. Maren Cole checked the frequency spectrum for the ten-thousandth time, her coffee growing cold beside the monitor. The Deep Space Listening Array — seven dishes spread across the Atacama desert — had captured nothing but cosmic background noise since the budget cuts started.\n\n\"You should go home,\" Pablo said from the doorway. \"The review board meets tomorrow. They're going to recommend shutting us down.\"\n\n\"I know,\" Maren said without looking up.\n\n\"Then why—\"\n\nThe spectrum analyzer spiked.\n\nNot a glitch. Not a satellite. The pattern was too structured, too *deliberate* — a sequence of prime numbers repeating on a frequency that shouldn't exist, emanating from a point in space that corresponded to absolutely nothing on any star chart.\n\nMaren's hand trembled as she hit record. \"Pablo. Call the director.\"\n\n\"Maren, that could be—\"\n\n\"I know what it could be.\" She looked at him, and for the first time in three years, something other than exhaustion filled her eyes. \"That's exactly why you need to make that call.\"\n\nThe signal continued: 2, 3, 5, 7, 11, 13... then something new. A pattern within the pattern. Not just mathematics anymore.\n\nIt was language.\n\nAnd it was getting closer.\n\n---\n\n*Want me to continue, change the genre, or try something different? I write sci-fi, fantasy, thriller, literary fiction, and poetry.*";
+  }
+
+  // Jokes
+  if (/joke|funny|laugh|humor|make me laugh/i.test(lower)) {
+    return pickRandom([
+      "> Why do programmers prefer dark mode?\n>\n> Because light attracts bugs.\n\n---\n\n> A SQL query walks into a bar, sees two tables, and asks...\n> \"Can I JOIN you?\"\n\nWant more? I've got jokes about recursion, but to understand them, you first need to understand jokes about recursion.",
+      "> There are only 10 types of people in the world:\n> Those who understand binary, and those who don't.\n\n---\n\n> Why did the developer go broke?\n> Because he used up all his cache.\n\nI've got more — just don't ask me to explain them. Some jokes lose everything in the explanation."
+    ]);
+  }
+
+  // Help
+  if (/help|what can you do|capabilities|features/i.test(lower)) {
+    return "## What I Can Do\n\n### Coding & Development\n- Write, debug, and optimize code in **30+ languages**\n- Explain algorithms and data structures\n- Architecture decisions and code reviews\n\n### Writing & Communication\n- Draft emails, reports, documents\n- Creative fiction, poetry, narratives\n- Marketing copy and landing pages\n\n### Learning & Explanation\n- Break down complex topics at any level\n- Study guides and summaries\n- Analogies for difficult concepts\n\n### Analysis & Problem-Solving\n- Compare options and weigh trade-offs\n- Brainstorm ideas and explore possibilities\n- Systematic debugging\n\n### Tips for Best Results\n- **Be specific** — more context = better answers\n- **Ask follow-ups** — refine iteratively\n- **Request formats** — \"in bullet points\" or \"as a code example\"\n- **Set constraints** — \"under 100 words\" or \"for a beginner\"\n\nWhat would you like to start with?";
+  }
+
+  // Algorithms
+  if (/algorithm|data structure|big o|time complexity|linked list|tree|graph|hash|stack|queue|heap/i.test(lower)) {
+    return "## Data Structures & Algorithms Reference\n\n### Complexity Table\n\n| Structure | Access | Search | Insert | Delete |\n|-----------|--------|--------|--------|--------|\n| Array | O(1) | O(n) | O(n) | O(n) |\n| Linked List | O(n) | O(n) | O(1) | O(1) |\n| Hash Table | O(1)* | O(1)* | O(1)* | O(1)* |\n| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) |\n| Heap | O(1)* | O(n) | O(log n) | O(log n) |\n\n*Average case\n\n### Essential Algorithms\n\n**Sorting:**\n- **Quick Sort** — O(n log n) avg, in-place\n- **Merge Sort** — O(n log n) guaranteed, stable\n- **Tim Sort** — Hybrid, used in Python/Java\n\n**Searching:**\n- **Binary Search** — O(log n), requires sorted data\n- **BFS/DFS** — O(V + E) for graphs\n\n**Dynamic Programming:**\n- Break into overlapping subproblems\n- Store results to avoid recomputation\n- Classics: Fibonacci, Knapsack, LCS\n\n### Decision Guide\n\n```\nFast lookup?          → Hash table\nOrdered data?         → BST or Skip List\nPriority queue?       → Heap\nDetect cycles?        → DFS + visited set\nShortest path?        → Dijkstra (weighted) / BFS (unweighted)\nMin spanning tree?    → Kruskal or Prim's\n```\n\nWant me to implement any of these or walk through a practice problem?";
+  }
+
+  // Thank you
+  if (/thank|thanks|thx|appreciate/i.test(lower)) {
+    return pickRandom([
+      "You're welcome! Come back anytime — I'm here whenever you need help.",
+      "Glad I could help! Don't hesitate to ask follow-up questions to go deeper.",
+      "Happy to assist! Remember, iterative refinement makes the best results."
+    ]);
+  }
+
+  // Goodbye
+  if (/^(bye|goodbye|see you|good night|take care|farewell)\b/i.test(lower)) {
+    return "Take care! It was great chatting with you. I'll be here whenever you need help. Have a wonderful day!";
+  }
+
+  // Default fallback
+  return pickRandom([
+    `That's an interesting topic. Let me share my thoughts:\n\n**Key Points:**\n\n1. **Context matters** — The answer depends on your specific situation and goals. Could you share more?\n\n2. **Multiple approaches exist** — Different solutions have different trade-offs in complexity, performance, and maintainability.\n\n3. **Start simple** — Begin with the most straightforward approach, then optimize when you have evidence it's needed.\n\n### For a Better Answer:\n\n- What's the **specific problem** you're solving?\n- What **constraints** are you working with?\n- What have you **already tried**?\n- What's your **experience level**?\n\nThe more detail you provide, the more actionable my response will be.`,
+    `Great question! Let me think through this carefully.\n\n### My Analysis\n\nThis touches on several interconnected areas:\n\n**The "What"** — The fundamental nature of what you're asking about\n**The "Why"** — The reasoning and motivation behind it\n**The "How"** — Practical implementation and execution\n\n### Practical Steps\n\n1. **Define success criteria** — What does a good outcome look like?\n2. **Identify constraints** — Time, resources, knowledge gaps\n3. **Choose a starting point** — The smallest meaningful step\n4. **Iterate and refine** — Learn from each step, adjust\n\n*Could you share more about your specific situation? Details help me move from general advice to actionable recommendations.*`,
+    `Let me break this down thoughtfully.\n\n### Framework\n\n**Step 1: Clarify the Goal**\nWrite it in one sentence. If you can't, it might be too broadly defined.\n\n**Step 2: Map the Landscape**\nWhat options exist? What are others doing? What are the trade-offs?\n\n**Step 3: Decide**\nPick the approach that best fits — not the "perfect" one, but the one you can execute well.\n\n**Step 4: Execute & Learn**\nImplement, measure results, and be ready to pivot.\n\n---\n\n*Tell me more about your situation and I'll give you specific, actionable recommendations.*`
+  ]);
+}
+
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function capitalizeFirst(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  if (window.innerWidth <= 768) {
+    const isOpen = sb.classList.contains('mobile-open');
+    sb.classList.toggle('mobile-open', !isOpen);
+    ov.classList.toggle('show', !isOpen);
+    if (!isOpen) history.pushState({ sidebar: true }, '');
+  } else {
+    sb.classList.toggle('collapsed');
+  }
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+function toggleModelDropdown() {
+  const dd = document.getElementById('modelDropdown');
+  dd.classList.toggle('open');
+  if (dd.classList.contains('open')) setTimeout(() => document.addEventListener('click', closeModelDD, { once: true }), 10);
+}
+function closeModelDD(e) { if (!e.target.closest('.model-select')) document.getElementById('modelDropdown').classList.remove('open'); }
+
+function selectModel(name, desc, el) {
+  document.getElementById('modelName').textContent = name;
+  state.settings.model = name;
+  document.querySelectorAll('.model-option').forEach(o => { o.classList.remove('selected'); o.querySelector('.check').style.visibility = 'hidden'; });
+  el.classList.add('selected');
+  el.querySelector('.check').style.visibility = 'visible';
+  document.getElementById('modelDropdown').classList.remove('open');
+  saveState();
+  showToast(`Switched to ${name}`, 'info');
+}
+
+function selectModelByName(name) {
+  document.getElementById('modelName').textContent = name;
+  document.querySelectorAll('.model-option').forEach(o => {
+    const n = o.querySelector('.model-name').textContent;
+    o.classList.toggle('selected', n === name);
+    o.querySelector('.check').style.visibility = n === name ? 'visible' : 'hidden';
+  });
+}
+
+function openSettings() { document.getElementById('settingsModal').classList.add('open'); closeSidebar(); }
+function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+
+function resetSettings() {
+  document.getElementById('systemPrompt').value = 'You are NexusAI, a helpful, harmless, and honest AI assistant. You provide clear, well-structured answers using markdown formatting when appropriate.';
+  document.getElementById('tempSlider').value = 0.7;
+  document.getElementById('tempVal').textContent = '0.7';
+  document.getElementById('tokensSlider').value = 4096;
+  document.getElementById('tokensVal').textContent = '4096';
+  document.getElementById('streamToggle').classList.add('on');
+  document.getElementById('hlToggle').classList.add('on');
+  document.getElementById('hapticToggle').classList.add('on');
+  showToast('Settings reset to defaults', 'info');
+}
+
+function saveSettings() {
+  state.settings.systemPrompt = document.getElementById('systemPrompt').value;
+  state.settings.temperature = parseFloat(document.getElementById('tempSlider').value);
+  state.settings.maxTokens = parseInt(document.getElementById('tokensSlider').value);
+  state.settings.stream = document.getElementById('streamToggle').classList.contains('on');
+  state.settings.codeHighlight = document.getElementById('hlToggle').classList.contains('on');
+  state.settings.haptic = document.getElementById('hapticToggle').classList.contains('on');
+  saveState();
+  closeSettings();
+  showToast('Settings saved', 'success');
+}
+
+function openAbout() {
+  // Calculate stats
+  let totalMsgs = 0, totalWords = 0;
+  state.conversations.forEach(c => {
+    totalMsgs += c.messages.length;
+    c.messages.forEach(m => { if (m.role === 'assistant') totalWords += m.content.split(/\s+/).filter(w => w).length; });
+  });
+  document.getElementById('statConvs').textContent = state.conversations.length;
+  document.getElementById('statMsgs').textContent = totalMsgs;
+  document.getElementById('statWords').textContent = totalWords > 999 ? (totalWords / 1000).toFixed(1) + 'k' : totalWords;
+  document.getElementById('aboutModal').classList.add('open');
+  closeSidebar();
+}
+function closeAbout() { document.getElementById('aboutModal').classList.remove('open'); }
+
+function exportChat() {
+  const conv = getCurrentConv();
+  if (!conv || conv.messages.length === 0) { showToast('No messages to export', 'error'); return; }
+  let text = `# ${conv.title}\n# Exported from NexusAI — ${new Date().toLocaleString()}\n\n`;
+  conv.messages.forEach(m => { text += `## ${m.role === 'user' ? 'You' : 'NexusAI'}\n${m.content}\n\n---\n\n`; });
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${conv.title.replace(/[^a-z0-9]/gi, '_')}.md`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Exported as Markdown', 'success');
+}
+
+function handleAttach() {
+  // Create a hidden file input for reading text files
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.txt,.md,.json,.csv,.js,.py,.html,.css,.xml';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 50000) { showToast('File too large (max 50KB)', 'error'); return; }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const content = ev.target.result;
+      const textarea = document.getElementById('userInput');
+      const prefix = textarea.value ? '\n' : '';
+      textarea.value += prefix + `[File: ${file.name}]\n\`\`\`\n${content}\n\`\`\``;
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
+      updateSendBtn();
+      showToast(`Attached: ${file.name}`, 'success');
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+  toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+  container.appendChild(toast);
+  setTimeout(() => { toast.classList.add('leaving'); setTimeout(() => toast.remove(), 300); }, 2500);
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+
+function handleKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    if (!state.isGenerating) sendMessage();
+  }
+  if (e.ctrlKey && e.key === 'n') { e.preventDefault(); newConversation(); }
+}
+
+function scrollToBottom() { const a = document.getElementById('messagesArea'); a.scrollTop = a.scrollHeight; }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// Global keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeSettings(); closeAbout(); document.getElementById('modelDropdown').classList.remove('open'); }
+});
+document.getElementById('settingsModal').addEventListener('click', function(e) { if (e.target === this) closeSettings(); });
+document.getElementById('aboutModal').addEventListener('click', function(e) { if (e.target === this) closeAbout(); });
+
+// Prevent pull-to-refresh on mobile
+document.body.addEventListener('touchmove', function(e) {
+  if (e.target.closest('.messages-area, .conv-list, .modal')) return;
+  // Allow normal scrolling in scrollable areas
+}, { passive: true });
+
+// Init
+init();
+</script>
+
+</body></html>
