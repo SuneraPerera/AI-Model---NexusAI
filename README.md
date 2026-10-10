@@ -1,2 +1,2 @@
-# AI-Model---NexusAI
+# AI-Model--NexusAI
 AI Training Model
